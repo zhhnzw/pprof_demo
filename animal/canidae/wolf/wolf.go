@@ -51,14 +51,11 @@ func (w *Wolf) Run() {
 func (w *Wolf) Howl() {
 	log.Println(w.Name(), "howl")
 
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
 	m := &sync.Mutex{}
 	m.Lock()
 	go func() {
-		defer wg.Done()
 		time.Sleep(time.Second)
 		m.Unlock()
 	}()
-	wg.Wait()
+	m.Lock()
 }
