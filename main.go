@@ -15,9 +15,9 @@ func main() {
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
 	log.SetOutput(os.Stdout)
 
-	runtime.GOMAXPROCS(1)
-	runtime.SetMutexProfileFraction(1)
-	runtime.SetBlockProfileRate(1)
+	runtime.GOMAXPROCS(1)              // 限制 CPU 使用数，避免过载
+	runtime.SetMutexProfileFraction(1) // 开启对锁调用的跟踪
+	runtime.SetBlockProfileRate(1)     // 开启对阻塞操作的跟踪
 
 	go func() {
 		if err := http.ListenAndServe(":6060", nil); err != nil {
