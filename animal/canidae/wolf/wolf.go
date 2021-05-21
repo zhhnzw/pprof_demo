@@ -53,15 +53,17 @@ func (w *Wolf) Howl() {
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
 	m := &sync.Mutex{}
-	go func(m *sync.Mutex) {
+	go func(m *sync.Mutex, wg *sync.WaitGroup) {
+		defer wg.Done()
 		m.Lock()
 		defer m.Unlock()
 		time.Sleep(time.Second)
-	}(m)
-	go func(m *sync.Mutex) {
+	}(m, wg)
+	go func(m *sync.Mutex, wg *sync.WaitGroup) {
+		defer wg.Done()
 		m.Lock()
 		defer m.Unlock()
 		time.Sleep(time.Second)
-	}(m)
+	}(m, wg)
 	wg.Wait()
 }
